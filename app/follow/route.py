@@ -17,7 +17,7 @@ def follow_user(id):
     if not current_user:
         return jsonify({'message': 'User not found!'}), 404
 
-    followee_id = current_user.id  # Use the user's ID
+    followee_id = current_user # Use the user's ID
     if followee_id == follower_id:
         return jsonify({'message': 'You cannot follow yourself!'}), 400
 
@@ -39,7 +39,7 @@ def unfollow_user(id):
     if not current_user:
         return jsonify({'message': 'User not found!'}), 404
 
-    followee_id = current_user.id  # Use the user's ID
+    followee_id = current_user # Use the user's ID
     if followee_id == follower_id:
         return jsonify({'message': 'You cannot follow yourself!'}), 400
     
