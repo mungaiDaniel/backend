@@ -52,7 +52,26 @@ def unfollow_user(id):
 
 
 
+@follow_v1.route('/following', methods=['GET'])
+@jwt_required()
+def get_followed_users():
+    follower_id = get_jwt_identity()
+    followed_users = FollowModel.get_followed_users(follower_id)
+    # If you want to return user details, fetch them here
+    users_data = []
+    for user in followed_users:
+        if hasattr(user, 'json_dumps'):
+            users_data.append(user.json_dumps())
+        elif hasattr(user, 'to_dict'):
+            users_data.append(user.to_dict())
+        else:
+            users_data.append(user)  # fallback: just the ID
 
+    return jsonify({
+        "status": 200,
+        "data": users_data,
+        "msg": "Fetched followed users successfully"
+    }), 200
 
 
 
