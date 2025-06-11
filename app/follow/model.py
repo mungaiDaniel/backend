@@ -34,7 +34,20 @@ class FollowModel(MY_DATABASE):
         return{
             "message" : "unfollow successfully"
         }
-
+    @classmethod
+    def get_followed_users(cls, follower_id):
+        format_str = f"""
+            SELECT followee_id FROM public.follow WHERE follower_id = '{follower_id}'
+        """
+        cursor.execute(format_str)
+        rows = cursor.fetchall()
+        followed_users = []
+        for row in rows:
+            # If you want just IDs:
+            followed_users.append(row[0])
+            # If you want to return FollowModel instances:
+            # followed_users.append(cls(id=None, follower_id=follower_id, followee_id=row[0]))
+        return followed_users
     
     def json_dumps(self):
         '''method to return a json object from the post details'''
